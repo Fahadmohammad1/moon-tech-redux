@@ -1,34 +1,31 @@
 import React from "react";
 import { useEffect } from "react";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "../components/ProductCard";
 import { toggleBrand, toggleStock } from "../redux/actionCreators/filterAction";
+import loadProductData from "../redux/thunk/products/fetchProducts";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
-  const dispatch = useDispatch();
   const filter = useSelector((state) => state.filter.filters);
-
+  const products = useSelector((state) => state.product.products);
   const { brand, stock } = filter;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("https://moon-tech-server-tau.vercel.app/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.data));
-  }, []);
+    dispatch(loadProductData());
+  }, [dispatch]);
 
   const activeClass = "text-white bg-indigo-500 border-white";
 
   let content;
 
-  if (products.length) {
+  if (products?.length) {
     content = products.map((product) => (
       <ProductCard key={product._id} product={product} />
     ));
   }
 
-  if (products.length && (stock || brand.length)) {
+  if (products?.length && (stock || brand.length)) {
     content = products
       .filter((product) => {
         if (stock) {
