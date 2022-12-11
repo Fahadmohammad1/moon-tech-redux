@@ -3,6 +3,7 @@ import {
   ADD_TO_CART,
   LOAD_PRODUCT,
   REMOVE_FROM_CART,
+  REMOVE_PRODUCT,
 } from "../actionTypes/actionTypes";
 
 export const loadProducts = (data) => {
@@ -15,6 +16,12 @@ export const addProducts = (data) => {
   return {
     type: ADD_PRODUCT,
     payload: data,
+  };
+};
+export const removeProducts = (id) => {
+  return {
+    type: REMOVE_PRODUCT,
+    payload: id,
   };
 };
 
